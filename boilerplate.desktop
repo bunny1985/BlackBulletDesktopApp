@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=BoilerPlate
+GenericName=Python GTK Boilerplate
+Comment=A sample python GTK application
+Exec=boilerplate
+Terminal=false
+Type=Application
+StartupNotify=true
+StartupWmClass=boilerplate
+Icon=boilerplate
+Categories=GNOME;
