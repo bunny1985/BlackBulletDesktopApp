@@ -4,7 +4,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 import configparser
 import sys
-
+from Utils import func_once
 
 
 class SettingsWindow:
@@ -12,9 +12,13 @@ class SettingsWindow:
         self.app = app
         self.window = app.builder.get_object("WindowwSettings")
         self.window.show_all()
-        app.builder.get_object("ButtonSaveSettings").connect("clicked" ,self.save)
-        self.window.connect('delete_event', self.on_close)
         self.set_values_from_settings()
+        self.connect_signals()
+    @func_once
+    def connect_signals(self):
+        self.app.builder.get_object("ButtonSaveSettings").connect("clicked" ,self.save)
+        self.window.connect('delete_event', self.on_close)
+        
 
     def set_values_from_settings(self):
         settings = SettinsManager()
