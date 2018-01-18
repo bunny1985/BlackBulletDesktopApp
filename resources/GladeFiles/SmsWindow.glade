@@ -3,25 +3,20 @@
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <object class="GtkStatusIcon" id="StatusIcon">
-    <property name="file">/home/michal/Project/PyGtkBlackBullet/resources/GladeFiles/icons/128x128/boilerplate.png</property>
+    <property name="pixbuf">icons/128x128/icon.png</property>
     <property name="has_tooltip">True</property>
     <property name="tooltip_text" translatable="yes">BlackBullet</property>
     <property name="title" translatable="yes">BlackBullet</property>
     <signal name="popup-menu" handler="popup-menu" swapped="no"/>
   </object>
   <object class="GtkMenu" id="TryIconMenu">
-    <property name="width_request">100</property>
-    <property name="height_request">200</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="resize_mode">immediate</property>
     <child>
       <object class="GtkMenuItem" id="MenuItemSms">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Sms</property>
-        <property name="use_underline">True</property>
-        <signal name="select" handler="on_Sms_select" swapped="no"/>
       </object>
     </child>
     <child>
@@ -71,6 +66,7 @@
     <property name="width_request">500</property>
     <property name="height_request">300</property>
     <property name="can_focus">False</property>
+    <property name="icon">icons/128x128/icon.png</property>
     <child>
       <object class="GtkBox" id="box2">
         <property name="visible">True</property>
@@ -213,12 +209,13 @@
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-missing-image</property>
+    <property name="stock">gtk-floppy</property>
   </object>
   <object class="GtkWindow" id="WindowwSettings">
     <property name="width_request">500</property>
     <property name="can_focus">False</property>
     <property name="halign">end</property>
+    <property name="icon_name">icons/128x128/icon.png</property>
     <child>
       <object class="GtkBox" id="box3">
         <property name="visible">True</property>
@@ -308,6 +305,8 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="image">image1</property>
+            <property name="relief">none</property>
+            <property name="image_position">right</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -317,5 +316,10 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkImage" id="mainIcon">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/128x128/icon.png</property>
   </object>
 </interface>
