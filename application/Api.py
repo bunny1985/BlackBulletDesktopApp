@@ -39,25 +39,11 @@ class ConnectivityManager(GObject.GObject):
         
 
         
-    def start_websocket_health_checker(self):
-        def check_healthThread():
-            while(True):
-                if self.checker_thread_cancelation_token != None : 
-                    break
-                if  self.ws.isOk  : 
-                    log.debug("HealthCheck: Websocket is ok")
-                else:
-                    log.debug("HealthCheck: Websocket is broken")
-                    self.ws.close()
-                    ConnectivityManager.websocketWorker = threading.Thread(name='worker', target=self.ws.run_forever)
-                    ConnectivityManager.websocketWorker.daemon = True
-                    ConnectivityManager.websocketWorker.start()
-                
-                time.sleep(5)
 
-        print("starting helath Checker")
-        self.checker_thread = threading.Thread(name = "wsHealthChecker" , target = check_healthThread)
-        self.checker_thread.start()
+
+        
+        
+        
     
 
     def authorize(self):
@@ -78,7 +64,10 @@ class ConnectivityManager(GObject.GObject):
         self.ws = websocket.WebSocketApp(url = "ws://" + self.config.address + "/notificationsSocket" , on_open = self.on_connect_callback()  ,on_close=self.on_disconnect_callback(),  cookie = self.authCookie )
         self.ws.on_message = self.on_message_callback()
         self.ws.isOk = False
-        self.start_websocket_health_checker()
+        ConnectivityManager.websocketWorker = threading.Thread(name='worker', target=self.ws.run_forever)
+        ConnectivityManager.websocketWorker.daemon = True
+        ConnectivityManager.websocketWorker.start()
+        
     
 
         
@@ -110,14 +99,18 @@ class ConnectivityManager(GObject.GObject):
         self.ws.send("{'type': 'sms' , 'to' : '" + to + "' , 'text': '" + text+ "' }")
     def share_request(self, text):
         self.ws.send("{'type': 'notification' , 'text': '" + text+ "' }")
+    def dismiss_notification(self, id):
+        self.ws.send("{'type': 'dismiss' , 'id': '" + id+ "' }")
     
 
 
     def on_message_callback(self):
         def on_message(ws, message):
+            
             try:
                 print("Server Said: ")
-                log.debug("WS message:" + message)
+                print(message)
+                #log.debug("WS message:" + message)
                 #msg = json.loads(message , object_hook=lambda d: namedtuple('X', d.keys())(*d.values()) )
                 #self.app.notify(msg.title , msg.body , "information" )
                 self.emit("ws_message_recived" , message)

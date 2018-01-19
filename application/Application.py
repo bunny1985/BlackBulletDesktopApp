@@ -11,6 +11,9 @@ import Utils
 import Api
 import logging
 import time 
+import json
+from collections import namedtuple
+import WebsocketMessageHandler
 logging.basicConfig( level=logging.DEBUG)
 log = logger = logging.getLogger(__name__)
 
@@ -26,7 +29,7 @@ class BlackBulletApplication(Gtk.Application):
     
     def __init__(self):
         self.state = AppState()
-        
+        self.messageHandler = WebsocketMessageHandler.WebSocketMessageHandler(self)
         self.notification_factory = Ui.NotificatonFactory()
         Gtk.Application.__init__(self)
         Gdk.threads_init()
@@ -44,7 +47,7 @@ class BlackBulletApplication(Gtk.Application):
         self.api.connect("authenticatation_failed" , self.on_authorization_failed)
         self.api.connect("ws_opened" , self.on_ws_opened)
         self.api.connect("ws_closed" , self.on_ws_closed)
-        self.api.connect("message_recived" , self.on_message_recived)
+        self.api.connect("ws_message_recived" , self.on_message_recived)
         
         self.api.authorize()
         
@@ -65,7 +68,10 @@ class BlackBulletApplication(Gtk.Application):
     def on_ws_closed(self , event ,reason ):
         log.info("CONNECTION DOWN")
 
-    def on_message_recived(self, event , rawmmessage)
+    def on_message_recived(self, event , raw_mmessage):
+        self.messageHandler.handle(raw_mmessage)
+        
+        
         
 
     def on_authorized(self , event ,cookie ):
@@ -93,13 +99,16 @@ class BlackBulletApplication(Gtk.Application):
         Ui.SettingsWindow(self)
     def play_ringtone(self):
         self.notify("Playing ringtone request" , "Sending" , "info")
-        self.connectivity.ringtone_request()
+        self.api.ringtone_request()
     def sms(self, to , text):
         self.notify("Sending Sms via phone" , "" , "info")
-        self.connectivity.sms_request(to, text);
+        self.api.sms_request(to, text);
     def share(self,  text):
         self.notify("Sending info to phone" ,"", "info")
-        self.connectivity.share_request(text);
+        self.api.share_request(text);
+    def dismiss_mobile_notification(self,  id):
+        log.info("Dismissing Notification id: " + id)
+        self.api.dismiss_notification(id);
 
     def do_activate(self):
         self.icon = Ui.TrayIcon(self)
