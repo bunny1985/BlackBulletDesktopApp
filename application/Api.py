@@ -1,9 +1,8 @@
-import gi
-import httplib2
 import threading
 
+import gi
+import httplib2
 import websocket
-
 from Utils import SettinsManager
 
 gi.require_version('Gtk', '3.0')

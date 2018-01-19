@@ -1,6 +1,5 @@
-import gi
-
 import Application
+import gi
 
 gi.require_version('Gtk', '3.0')
 
@@ -22,7 +21,7 @@ class GenericNotificationHandler():
     def handle(self ,notification ):
         log.debug("Handling generic notification")
         desktop_notification  = self.app.notification_factory.CreateMobileNotification(notification.title , notification.body)
-        if(notification.package == "com.facebook.katana" or notification == "com.facebook.orca" ): 
+        if (notification.package == "com.facebook.katana" or notification.package == "com.facebook.orca"):
             desktop_notification.add_action("open_facebook", "Open Facebook", lambda a , b , c : webbrowser.open('https://facebook.com/', new= 2) , None)
         if(notification.package == "com.whatsapp"): 
             desktop_notification.add_action("open_whatsup", "Whatsup Web", lambda a , b , c: webbrowser.open('https://web.whatsapp.com/', new= 2) , None)
