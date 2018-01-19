@@ -1,34 +1,22 @@
 import gi
-
 gi.require_version('Gtk', '3.0')
-
 from gi.repository import Gtk, Gdk
-
-from gi.repository import Gio
 import sys
 import Ui
 import Utils
 import Api
 import logging
-import time 
-import json
-from collections import namedtuple
+import time
+
 import WebsocketMessageHandler
 logging.basicConfig( level=logging.DEBUG)
 log = logger = logging.getLogger(__name__)
 
-class AppState():
-    authorized = False
-    connected = False
-    
 
 class BlackBulletApplication(Gtk.Application):
-    APPNAME = "boilerplate"
-    
 
-    
     def __init__(self):
-        self.state = AppState()
+
         self.messageHandler = WebsocketMessageHandler.WebSocketMessageHandler(self)
         self.notification_factory = Ui.NotificatonFactory()
         Gtk.Application.__init__(self)

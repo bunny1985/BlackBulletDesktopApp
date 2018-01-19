@@ -1,7 +1,8 @@
 import gi
+
 import Application
+
 gi.require_version('Gtk', '3.0')
-from gi.repository import  GObject
 
 import json
 from collections import namedtuple
@@ -11,13 +12,12 @@ log = logger = logging.getLogger(__name__)
 
 import webbrowser
 
- 
 
 class GenericNotificationHandler():
     can_handle = "notification"
-    
+
     def __init__(self ,  app):
-        self.app = app # type: 
+        self.app = app  # type: Application.BlackBulletApplication
 
     def handle(self ,notification ):
         log.debug("Handling generic notification")
@@ -29,13 +29,14 @@ class GenericNotificationHandler():
         if(notification.package == "com.instagram.android"): 
             desktop_notification.add_action("open_insta", "Whatsup Web", lambda a , b , c: webbrowser.open('https://www.instagram.com/', new= 2) , None)
         desktop_notification.add_action("dismiss_notification", "Dismiss on mobile", lambda a , b , c: self.app.dismiss_mobile_notification(notification.id) , None)
+
         desktop_notification.show()
 
 class WebSocketMessageHandler():
     handlers = []
     
     def __init__(self , app):
-        self.app = app
+        self.app = app  # type: Application.BlackBulletApplication
         self.register_handlers(app)
 
     def register_handlers(self , app):

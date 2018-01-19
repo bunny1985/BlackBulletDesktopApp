@@ -1,11 +1,10 @@
-import json
-from collections import namedtuple
-import httplib2
-import websocket
-from Utils import SettinsManager
-import threading
-import time
 import gi
+import httplib2
+import threading
+
+import websocket
+
+from Utils import SettinsManager
 
 gi.require_version('Gtk', '3.0')
 
@@ -50,8 +49,7 @@ class ConnectivityManager(GObject.GObject):
         try:
             (resp_headers, content) = self.http.request("http://" +  self.config.address + "/api/Account/Login" , "POST", body = "{'email': '" + self.config.user_name+ "', 'PASSWORD': '" + self.config.password+  "'}", headers = {'Content-type': 'application/json'})
             self.authCookie =  resp_headers["set-cookie"]
-            self.app.state.authorized = True
-            
+
             self.emit("authenticated" , self.authCookie)
         except Exception as e:
             print(e)
