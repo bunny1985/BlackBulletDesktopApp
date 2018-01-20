@@ -18,7 +18,7 @@ class BlackBulletApplication(Gtk.Application):
     def __init__(self):
 
         self.messageHandler = WebsocketMessageHandler.WebSocketMessageHandler(self)
-        self.notification_factory = Ui.NotificatonFactory()
+        self.notification_factory = Ui.NotificatonFactory()  # type : Ui.NotificatonFactory
         Gtk.Application.__init__(self)
         Gdk.threads_init()
 
@@ -94,6 +94,10 @@ class BlackBulletApplication(Gtk.Application):
     def share(self,  text):
         self.notify("Sending info to phone" ,"", "info")
         self.api.share_request(text);
+
+    def close_all_notifications(self):
+        self.notification_factory.close_all();
+
     def dismiss_mobile_notification(self,  id):
         log.info("Dismissing Notification id: " + id)
         self.api.dismiss_notification(id);

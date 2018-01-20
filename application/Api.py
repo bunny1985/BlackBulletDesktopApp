@@ -45,6 +45,7 @@ class ConnectivityManager(GObject.GObject):
     
 
     def authorize(self):
+        self.config = SettinsManager().get_config_as_object()
         try:
             (resp_headers, content) = self.http.request("http://" +  self.config.address + "/api/Account/Login" , "POST", body = "{'email': '" + self.config.user_name+ "', 'PASSWORD': '" + self.config.password+  "'}", headers = {'Content-type': 'application/json'})
             self.authCookie =  resp_headers["set-cookie"]
@@ -57,6 +58,7 @@ class ConnectivityManager(GObject.GObject):
     
 
     def connect_web_socket(self):
+        self.config = SettinsManager().get_config_as_object()
         websocket.enableTrace(True)
         self.ws = websocket.WebSocketApp(url = "ws://" + self.config.address + "/notificationsSocket" , on_open = self.on_connect_callback()  ,on_close=self.on_disconnect_callback(),  cookie = self.authCookie )
         self.ws.on_message = self.on_message_callback()

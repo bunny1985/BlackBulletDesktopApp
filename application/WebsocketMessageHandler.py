@@ -1,7 +1,8 @@
-import Application
+
 import gi
 
 gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk, GObject
 
 import json
 from collections import namedtuple
@@ -11,6 +12,23 @@ log = logger = logging.getLogger(__name__)
 
 import webbrowser
 
+
+class ClipboardHandler():
+    can_handle = "clipboard"
+
+    def __init__(self, app):
+        self.app = app  # type: Application.BlackBulletApplication
+
+    def handle(self, notification):
+        log.debug("Handling cliboard request")
+
+        def clipboard_add(a):
+            clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+            clipboard.set_text(notification.body, -1)
+            notification_factory = self.app.notification_factory  # type : Ui.NotificatonFactory
+            notification_factory.CreateInfo("Clipboard From mobile recived", notification.body).show()
+
+        GObject.idle_add(clipboard_add, 1)
 
 class GenericNotificationHandler():
     can_handle = "notification"
@@ -40,6 +58,7 @@ class WebSocketMessageHandler():
 
     def register_handlers(self , app):
         self.handlers.append(GenericNotificationHandler(app))
+        self.handlers.append(ClipboardHandler(app))
     
     def handle(self , message):
         #try:

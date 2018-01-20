@@ -2,12 +2,11 @@ import gi
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('Notify', '0.7')
-from gi.repository import Gtk, Gio , Notify
+from gi.repository import Notify
 
-import sys
 from Utils import func_once , SettinsManager
 from random import randint
-import configparser
+
 
 class SendWindow:
     def __init__(self ,app):
@@ -83,6 +82,8 @@ class TrayIcon:
 
         sms  = self.app.builder.get_object("MenuItemSms")
         sms.connect("activate", self.SmsSelected)
+        clear = self.app.builder.get_object("MenuItemClearAll")
+        clear.connect("activate", self.Clear_all_notifications)
         
         #.connect("popup-menu", self.OnShowPopupMenu)
         #window = Gtk.Window()
@@ -101,6 +102,10 @@ class TrayIcon:
     def SendTextSelected(self, widget):
         print("Send")
         self.app.show_send_window();
+
+    def Clear_all_notifications(self, widget):
+        print("Clear All Notification")
+        self.app.close_all_notifications();
 
 
     def right_click_event(self, widget, event, eventTime):
@@ -167,9 +172,13 @@ class NotificatonFactory:
     notification.connect('closed', self.on_notification_closed)
     return notification
 
+  def close_all(self):
+      for item in self.list:
+          item.close()
   def CreateInfo(self , title , body):
     icon = "dialog-info"
     return self.CreateNotification(title,body , icon)
+
   def CreateWarning(self , title , body):
     icon = "dialog-warning"
     return self.CreateNotification(title,body , icon)
