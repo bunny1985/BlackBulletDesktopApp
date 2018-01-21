@@ -86,16 +86,19 @@ class BlackBulletApplication(Gtk.Application):
     def show_settings_window(self):
         Ui.SettingsWindow(self)
     def play_ringtone(self):
-        self.notify("Playing ringtone request" , "Sending" , "info")
+        self.notification_factory.CreateInfo("Sending ringtone request", "").show()
         self.api.ringtone_request()
     def sms(self, to , text):
-        self.notify("Sending Sms via phone" , "" , "info")
+        self.notification_factory.CreateInfo("Sending sms", text).show()
         self.api.sms_request(to, text);
     def share(self,  text):
-        self.notify("Sending info to phone" ,"", "info")
+        self.notification_factory.CreateInfo("Sending notification", text).show()
         self.api.share_request(text);
+    def get_battery_status(self):
+        self.api.get_battery_status();
 
     def close_all_notifications(self):
+        self.get_battery_status()
         self.notification_factory.close_all();
 
     def dismiss_mobile_notification(self,  id):

@@ -91,7 +91,8 @@ class ConnectivityManager(GObject.GObject):
 
             
 
-    
+    def get_battery_status(self):
+        self.ws.send('{"type": "battery"}')
     def ringtone_request(self):
         self.ws.send('{"type": "ringtone"}')
     def sms_request(self, to , text):
