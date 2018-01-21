@@ -53,8 +53,12 @@ class BlackBulletApplication(Gtk.Application):
 
     def on_ws_opened(self , event ,msg ):
         log.info("WS OPEN! WE ARE ONLINE NOW")
+        self.icon.statusIcon.set_from_file("../resources/GladeFiles/icons/128x128/icon.png")
     def on_ws_closed(self , event ,reason ):
+        self.icon.statusIcon.set_from_file("../resources/GladeFiles/icons/128x128/ammunition.png")
         log.info("CONNECTION DOWN")
+        self.reset_connectivity();
+
 
     def on_message_recived(self, event , raw_mmessage):
         self.messageHandler.handle(raw_mmessage)

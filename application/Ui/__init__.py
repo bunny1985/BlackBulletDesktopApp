@@ -64,6 +64,8 @@ class TrayIcon:
         self.app = app
         self.statusIcon  = app.builder.get_object("StatusIcon")
         self.statusIcon.set_visible(True)
+        #icons/128x128/icon.png
+
         
         self.statusIcon.connect("popup-menu", self.right_click_event)
         self.menu  = self.app.builder.get_object("TryIconMenu")
@@ -146,10 +148,10 @@ class SettingsWindow:
         settings.set("pass" ,passwd)
         settings.set("url" ,url)
         settings.save()
-        
+        self.window.hide()
         self.app.reset_connectivity()
         
-        self.window.hide()
+
 
 
 

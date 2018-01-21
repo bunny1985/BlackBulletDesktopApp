@@ -9,11 +9,71 @@
     <property name="title" translatable="yes">BlackBullet</property>
     <signal name="popup-menu" handler="popup-menu" swapped="no"/>
   </object>
+  <object class="GtkMenu" id="TryIconMenu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkMenuItem" id="MenuItemSms">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Sms</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="MenuItemShare">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Share</property>
+        <property name="use_underline">True</property>
+        <signal name="select" handler="on_Share_select" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="MenuItemRingtone">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Ring</property>
+        <property name="use_underline">True</property>
+        <signal name="select" handler="on_Ring_select" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="Separator">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="MenuItemSettings">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Settings</property>
+        <property name="use_underline">True</property>
+        <signal name="select" handler="on_Settings_select" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="MenuItemQuit">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Quit</property>
+        <property name="use_underline">True</property>
+        <signal name="select" handler="quitSelected" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="MenuItemClearAll">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Clear Notifications</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+  </object>
   <object class="GtkWindow" id="WindowShare">
     <property name="width_request">500</property>
     <property name="height_request">300</property>
     <property name="can_focus">False</property>
-    <property name="icon">icons/128x128/icon.png</property>
     <child>
       <object class="GtkBox" id="box2">
         <property name="visible">True</property>
@@ -261,67 +321,6 @@
             <property name="position">6</property>
           </packing>
         </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkImage" id="image2">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="resource">icons/128x128/sms.png</property>
-  </object>
-  <object class="GtkMenu" id="TryIconMenu">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkImageMenuItem" id="MenuItemSms">
-        <property name="label" translatable="yes">Sms</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="image">image2</property>
-        <property name="use_stock">False</property>
-        <property name="always_show_image">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="MenuItemShare">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Share</property>
-        <property name="use_underline">True</property>
-        <signal name="select" handler="on_Share_select" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="MenuItemRingtone">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Ring</property>
-        <property name="use_underline">True</property>
-        <signal name="select" handler="on_Ring_select" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="Separator">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="MenuItemSettings">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Settings</property>
-        <property name="use_underline">True</property>
-        <signal name="select" handler="on_Settings_select" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="MenuItemQuit">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Quit</property>
-        <property name="use_underline">True</property>
-        <signal name="select" handler="quitSelected" swapped="no"/>
       </object>
     </child>
   </object>

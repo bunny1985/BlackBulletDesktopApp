@@ -63,6 +63,9 @@ class WebSocketMessageHandler():
     def handle(self , message):
         #try:
         msg = json.loads(message , object_hook=lambda d: namedtuple('X', d.keys())(*d.values()) )
+        if hasattr(msg, "status"):
+            return
+
         eventType = msg.notificationType
         log.debug(eventType)
         for handler in self.handlers:
