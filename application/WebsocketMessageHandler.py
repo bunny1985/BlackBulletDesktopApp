@@ -29,6 +29,21 @@ class ClipboardHandler():
             notification_factory.CreateInfo("Clipboard From mobile recived", notification.body).show()
 
         GObject.idle_add(clipboard_add, 1)
+class BatteryHandler():
+    can_handle = "battery"
+
+    def __init__(self, app):
+        self.app = app  # type: Application.BlackBulletApplication
+
+    def handle(self, notification):
+        log.debug("Handling Battery status")
+
+        def update_battery_status(a):
+            notification_factory = self.app.notification_factory  # type : Ui.NotificatonFactory
+            chargingstring = 'charging' if  notification.isCharging == "true" else ''
+            notification_factory.CreateInfo("Mobile Battery level:", str(int(float(notification.percent)*100))+"% " + chargingstring   ) .show()
+
+        GObject.idle_add(update_battery_status, 1)
 
 class GenericNotificationHandler():
     can_handle = "notification"
@@ -59,6 +74,7 @@ class WebSocketMessageHandler():
     def register_handlers(self , app):
         self.handlers.append(GenericNotificationHandler(app))
         self.handlers.append(ClipboardHandler(app))
+        self.handlers.append(BatteryHandler(app))
     
     def handle(self , message):
         #try:

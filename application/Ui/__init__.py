@@ -84,9 +84,13 @@ class TrayIcon:
 
         sms  = self.app.builder.get_object("MenuItemSms")
         sms.connect("activate", self.SmsSelected)
+
         clear = self.app.builder.get_object("MenuItemClearAll")
         clear.connect("activate", self.Clear_all_notifications)
-        
+
+        battery = self.app.builder.get_object("BatteryStatus")
+        battery.connect("activate", self.BatterySelected)
+
         #.connect("popup-menu", self.OnShowPopupMenu)
         #window = Gtk.Window()
     def QuitSelected(self, widget):
@@ -108,7 +112,9 @@ class TrayIcon:
     def Clear_all_notifications(self, widget):
         print("Clear All Notification")
         self.app.close_all_notifications();
-
+    def BatterySelected(self, widget):
+        print("GET BATTERY STATUS")
+        self.app.get_battery_status();
 
     def right_click_event(self, widget, event, eventTime):
         self.menu.popup(None, None, None, None, event, eventTime)

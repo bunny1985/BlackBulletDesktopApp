@@ -101,8 +101,8 @@ class BlackBulletApplication(Gtk.Application):
     def get_battery_status(self):
         self.api.get_battery_status();
 
+
     def close_all_notifications(self):
-        self.get_battery_status()
         self.notification_factory.close_all();
 
     def dismiss_mobile_notification(self,  id):

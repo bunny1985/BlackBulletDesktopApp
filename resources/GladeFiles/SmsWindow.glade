@@ -20,7 +20,7 @@
         <property name="use_underline">True</property>
       </object>
     </child>
-     <child>
+    <child>
       <object class="GtkSeparatorMenuItem" id="Separator2">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -52,6 +52,14 @@
       </object>
     </child>
     <child>
+      <object class="GtkMenuItem" id="BatteryStatus">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Battery</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkSeparatorMenuItem" id="Separator">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -75,7 +83,6 @@
         <signal name="select" handler="quitSelected" swapped="no"/>
       </object>
     </child>
-
   </object>
   <object class="GtkWindow" id="WindowShare">
     <property name="width_request">500</property>
