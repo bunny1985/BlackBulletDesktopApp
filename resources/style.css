@@ -1,0 +1,25 @@
+GtkWidget{
+
+
+}
+GtkEntry{
+    border: 1px solid #666666;
+    border-radius:3px;
+
+}
+GtkEntry * {
+    background-color: #ff0000;
+
+}
+
+GtkFrame{
+border: 1px solid #666666;
+border-radius:3px;
+}
+GtkButton{
+border: 1px solid #666666;
+border-radius:3px;
+}
+GtkTextView {
+    background-color: #ffffff;
+}

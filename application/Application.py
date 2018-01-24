@@ -28,6 +28,17 @@ class BlackBulletApplication(Gtk.Application):
         #self.settings = Gio.Settings.new(self.SETTINGS_KEY)
         self.builder = Gtk.Builder()
         self.builder.add_from_file("../resources/GladeFiles/SmsWindow.glade")
+
+        screen = Gdk.Screen.get_default()
+
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_path('../resources/style.css')
+
+        context = Gtk.StyleContext()
+        context.add_provider_for_screen(screen, css_provider,
+                                        Gtk.STYLE_PROVIDER_PRIORITY_USER)
+
+
         if self.is_config_valid() == False: 
             self.show_settings_window()
         self.api = Api.ConnectivityManager(self)
