@@ -26,7 +26,7 @@ class ClipboardHandler():
             clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
             clipboard.set_text(notification.body, -1)
             notification_factory = self.app.notification_factory  # type : Ui.NotificatonFactory
-            notification_factory.CreateInfo("Clipboard From mobile recived", notification.body).show()
+            notification_factory.create_info("Clipboard From mobile recived", notification.body).show()
 
         GObject.idle_add(clipboard_add, 1)
 class BatteryHandler():
@@ -40,8 +40,9 @@ class BatteryHandler():
 
         def update_battery_status(a):
             notification_factory = self.app.notification_factory  # type : Ui.NotificatonFactory
-            chargingstring = 'charging' if  notification.isCharging == "true" else ''
-            notification_factory.CreateInfo("Mobile Battery level:", str(int(float(notification.percent)*100))+"% " + chargingstring   ) .show()
+            charging_string = 'charging' if notification.isCharging == "true" else ''
+            notification_factory.create_info("Mobile Battery level:", str(
+                int(float(notification.percent) * 100)) + "% " + charging_string).show()
 
         GObject.idle_add(update_battery_status, 1)
 
@@ -53,7 +54,8 @@ class GenericNotificationHandler():
 
     def handle(self ,notification ):
         log.debug("Handling generic notification")
-        desktop_notification  = self.app.notification_factory.CreateMobileNotification(notification.title , notification.body)
+        desktop_notification = self.app.notification_factory.create_mobile_notification(notification.title,
+                                                                                        notification.body)
         if (notification.package == "com.facebook.katana" or notification.package == "com.facebook.orca"):
             desktop_notification.add_action("open_facebook", "Open Facebook", lambda a , b , c : webbrowser.open('https://facebook.com/', new= 2) , None)
         if(notification.package == "com.whatsapp"): 

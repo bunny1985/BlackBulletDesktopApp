@@ -64,9 +64,9 @@ class BlackBulletApplication(Gtk.Application):
 
     def on_ws_opened(self , event ,msg ):
         log.info("WS OPEN! WE ARE ONLINE NOW")
-        self.icon.statusIcon.set_from_file("../resources/GladeFiles/icons/128x128/icon.png")
+        self.icon.status_icon.set_from_file("../resources/GladeFiles/icons/128x128/icon.png")
     def on_ws_closed(self , event ,reason ):
-        self.icon.statusIcon.set_from_file("../resources/GladeFiles/icons/128x128/ammunition.png")
+        self.icon.status_icon.set_from_file("../resources/GladeFiles/icons/128x128/ammunition.png")
         log.info("CONNECTION DOWN")
         self.reset_connectivity();
 
@@ -83,7 +83,7 @@ class BlackBulletApplication(Gtk.Application):
 
     def on_authorization_failed(self, event ,string):
         log.warn("AUTH FAILED")
-        self.notification_factory.CreateWarning("Authorization Failed"  , "").show()
+        self.notification_factory.create_warning("Authorization Failed", "").show()
         self.show_settings_window()
 
 
@@ -101,13 +101,13 @@ class BlackBulletApplication(Gtk.Application):
     def show_settings_window(self):
         Ui.SettingsWindow(self)
     def play_ringtone(self):
-        self.notification_factory.CreateInfo("Sending ringtone request", "").show()
+        self.notification_factory.create_info("Sending ringtone request", "").show()
         self.api.ringtone_request()
     def sms(self, to , text):
-        self.notification_factory.CreateInfo("Sending sms", text).show()
+        self.notification_factory.create_info("Sending sms", text).show()
         self.api.sms_request(to, text);
     def share(self,  text):
-        self.notification_factory.CreateInfo("Sending notification", text).show()
+        self.notification_factory.create_info("Sending notification", text).show()
         self.api.share_request(text);
     def get_battery_status(self):
         self.api.get_battery_status();
@@ -122,7 +122,7 @@ class BlackBulletApplication(Gtk.Application):
 
     def do_activate(self):
         self.icon = Ui.TrayIcon(self)
-        self.notification_factory.CreateInfo("Blackbullet Started" , "").show()
+        self.notification_factory.create_info("Blackbullet Started", "").show()
         Gtk.main()
 
         
@@ -131,7 +131,7 @@ class BlackBulletApplication(Gtk.Application):
         
     def quit(self):
         self.api.checker_thread_cancelation_token = True
-        self.notification_factory.CreateInfo("Bye Bye" , "").show()
+        self.notification_factory.create_info("Bye Bye", "").show()
         Gtk.main_quit()
         # self.connectivity.ws.close()
 
