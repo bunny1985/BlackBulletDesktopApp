@@ -10,6 +10,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import  GObject
 
 import logging
+import ssl
 logging.basicConfig( level=logging.DEBUG)
 log = logger = logging.getLogger(__name__)
 
@@ -47,7 +48,7 @@ class ConnectivityManager(GObject.GObject):
     def authorize(self):
         self.config = SettinsManager().get_config_as_object()
         try:
-            (resp_headers, content) = self.http.request("http://" +  self.config.address + "/api/Account/Login" , "POST", body = "{'email': '" + self.config.user_name+ "', 'PASSWORD': '" + self.config.password+  "'}", headers = {'Content-type': 'application/json'})
+            (resp_headers, content) = self.http.request("https://" +  self.config.address + "/api/Account/Login" , "POST", body = "{'email': '" + self.config.user_name+ "', 'PASSWORD': '" + self.config.password+  "'}", headers = {'Content-type': 'application/json'})
             self.authCookie =  resp_headers["set-cookie"]
 
             self.emit("authenticated" , self.authCookie)
@@ -60,10 +61,26 @@ class ConnectivityManager(GObject.GObject):
     def connect_web_socket(self):
         self.config = SettinsManager().get_config_as_object()
         websocket.enableTrace(True)
-        self.ws = websocket.WebSocketApp(url = "ws://" + self.config.address + "/notificationsSocket" , on_open = self.on_connect_callback()  ,on_close=self.on_disconnect_callback(),  cookie = self.authCookie )
+
+
+        websocket.WebSocket.__get_handshake_headers = websocket.WebSocket._get_handshake_headers
+        me = self
+        def new_get_handshake_headers(self, resource, host, port, options):
+            headers, key =  websocket.WebSocket.__get_handshake_headers(self, resource, host, port, options) # OLD METHOD
+            headers[3] = 'Host: '+  me.config.address
+            headers[4] = 'Origin: https://' +   me.config.address
+            return headers, key
+        websocket.WebSocket._get_handshake_headers = new_get_handshake_headers
+
+        self.ws = websocket.WebSocketApp(url = "wss://"+  self.config.address +"/notificationsSocket", on_open = self.on_connect_callback(), on_close=self.on_disconnect_callback(), cookie = self.authCookie , on_error= self.on_message_callback())
         self.ws.on_message = self.on_message_callback()
         self.ws.isOk = False
-        ConnectivityManager.websocketWorker = threading.Thread(name='worker', target=self.ws.run_forever)
+        def runtask():
+            return self.ws.run_forever(sslopt={"check_hostname": False }  )
+
+
+
+        ConnectivityManager.websocketWorker = threading.Thread(name='worker', target=lambda : runtask() )
         ConnectivityManager.websocketWorker.daemon = True
         ConnectivityManager.websocketWorker.start()
         
