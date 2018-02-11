@@ -19,7 +19,7 @@ class Config:
 
 class SettinsManager:
     def __init__(self):
-        SettinsManager.filename = "preferences.conf"
+        SettinsManager.filename = "~/.blackbullet.conf"
         SettinsManager.category = "DEFAULT"
 
         self.config = configparser.ConfigParser()
@@ -28,10 +28,14 @@ class SettinsManager:
         config = Config()
         config.user_name = self.get("email")
         config.password = self.get("pass")
-        config.address = self.get("url")
+        config.address = self.get("url" ,"blackbulletapp.ovh" )
         return config
-    def get(self, key):
-        return self.config[SettinsManager.category][key]
+    def get(self, key , default = ""):
+        try:
+            return self.config[SettinsManager.category][key]
+        except:
+            return default;
+
     def set(self, key , value):
         self.config[SettinsManager.category][key] = value
     def save(self):

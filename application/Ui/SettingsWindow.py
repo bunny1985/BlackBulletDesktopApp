@@ -21,9 +21,11 @@ class SettingsWindow:
         settings = SettinsManager()
         email = settings.get("email")
         passwd = settings.get("pass")
-        url = settings.get("url")
+        url = settings.get("url" , "blackbulletapp.ovh")
         self.app.builder.get_object("InputEmail").set_text(email)
-        self.app.builder.get_object("InputPassword").set_text(passwd)
+        password_input  = self.app.builder.get_object("InputPassword")
+        password_input.set_visibility(False)
+        password_input.set_text(passwd)
         self.app.builder.get_object("InputServerUrl").set_text(url)
 
     def on_close(self, widget, event):
