@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+import sys
+import signal
+import os
+from Application import BlackBulletApplication
+
+if __name__ == "__main__":
+    # Allow application shutdown with Ctrl-C in terminal
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
+    app = BlackBulletApplication()
+    exit_status = app.run(sys.argv)
+    sys.exit(exit_status)

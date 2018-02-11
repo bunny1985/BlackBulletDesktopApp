@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=BlackBullet
+GenericName=BlackBullet
+Comment=Android notifications for Linux
+
+Exec=/opt/blackbulletapp/application/blackbullet
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=blackbullet
+Categories=Other;

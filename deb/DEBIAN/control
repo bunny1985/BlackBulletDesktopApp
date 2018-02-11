@@ -1,0 +1,16 @@
+Package: blackbulletapp
+Version: 0.9-0
+Section: base
+Priority: optional
+Architecture: amd64
+Depends: python3 (>= 3.5.1-3), python3-gi (>= 3.20.0), python3-httplib2 (>=0.9.1) , python3-websocket (>=0.18.0-2)
+Maintainer: Michał Banaś <mb.michal.banas@gmail.com>
+Description: BlackBUlletApp
+ Enjoy your android notifications on linux desktop.
+ Features:
+ 	Notifications reflected
+ 	Sending messages from and to Smartphone
+ 	Clipboard Shareing 
+ 	Battery Status
+ 	Playing Ringtone
+
