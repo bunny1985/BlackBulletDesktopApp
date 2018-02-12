@@ -1,4 +1,6 @@
 import configparser
+from pathlib import Path
+
 
 def func_once(func):
     "A decorator that runs a function only once."
@@ -19,7 +21,7 @@ class Config:
 
 class SettinsManager:
     def __init__(self):
-        SettinsManager.filename = "~/.blackbullet.conf"
+        SettinsManager.filename = str(Path.home()) + "/.blackbullet.conf"
         SettinsManager.category = "DEFAULT"
 
         self.config = configparser.ConfigParser()
@@ -39,5 +41,5 @@ class SettinsManager:
     def set(self, key , value):
         self.config[SettinsManager.category][key] = value
     def save(self):
-        with open(SettinsManager.filename, 'w') as configfile:    # save
+        with open(SettinsManager.filename, 'w+') as configfile:    # save
             self.config.write(configfile)
